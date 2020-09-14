@@ -1,7 +1,11 @@
 <template>
   <div id="app">
-      <input type="text" disabled="true" v-model="msg" />
-      <input type="button" value="发送请求" @click="handler" />
+      <h3>1. Promise基本使用</h3>
+      <input type="text" disabled="false" v-model="msg" />
+      <input type="button" value="发送定时任务" @click="handler" />
+      <hr>
+      <h3>2. 基于Promise处理Ajax请求</h3>
+      <input type="button" value="发送Ajax请求" @click="handler1" />
   </div>
 </template>
 
@@ -33,6 +37,30 @@ export default {
 
       })
       .catch((error) => {
+        console.log(error)
+      })
+    },
+    queryData(url) {
+      let p = new Promise(function(resolve, reject){
+        let xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function() {
+          if(xhr.readyState != 4)return
+          if(xhr.readyState == 4 && xhr.status == 200){
+            resolve(xhr.responseText)
+          }else{
+            reject('请求出错')
+          }
+        }
+        xhr.open('GET',url)
+        xhr.send(null)
+      })
+      return p
+    },
+    handler1() {
+      this.queryData('http://localhost:8080/api/user/info/1')
+      .then((data) => {
+        console.log(data)
+      },(error) => {
         console.log(error)
       })
     }
