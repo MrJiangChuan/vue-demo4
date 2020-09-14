@@ -19,6 +19,9 @@
       <input type="button" value="axios请求拦截器" @click="handler7" />
       <h3>4.2 axios响应拦截器</h3>
       <input type="button" value="axios响应拦截器" @click="handler8" />
+      <hr>
+      <h3>5. 接口调用async和await用法</h3>
+      <input type="button" value="接口调用async和await用法" @click="handler9" />
   </div>
 </template>
 
@@ -173,12 +176,28 @@ export default {
       .then(data => {
         console.log(data)
       })
+    },
+    queryaxios: async function(url) {
+      const ret = await this.$axios.get(url)
+      // console.log('async: ' + ret.data)
+      return ret
+    },
+    handler9() {
+      this.queryaxios('http://localhost:8080/api/user/info/10')
+      .then(ret => {
+        console.log(ret.data)
+      })
     }
   },
   components: {
 
   }
 }
+  // async function queryaxios(url) {
+  //   let ret = await vm.$axios.get(url)
+  //   console.log(async+': '+ret)
+  //   return ret
+  // }
 </script>
 
 <style>
